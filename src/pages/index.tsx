@@ -6,8 +6,13 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 import NavBar from "../components/NavBar";
 import BudgetHeader from "../components/BugetHeader";
+import Login from "../components/Login";
 
 const Home: NextPage = () => {
+
+  const {data: session} = useSession()
+  console.log(session);
+  
 
   return (
     <>
@@ -18,13 +23,14 @@ const Home: NextPage = () => {
       </Head>
       <main className="min-h-screen pb-5 bg-green-100 bg-img">
         <NavBar />
+        {!session ? (<Login />) : <BudgetHeader />}
         {/* <div className="h-full py-5">
           <div className="h-48 ml-10 bg-slate-300 w-[45%] rounded">
 
           </div>
 
         </div> */}
-        <BudgetHeader />
+        {/* <BudgetHeader /> */}
         
       </main>
     </>

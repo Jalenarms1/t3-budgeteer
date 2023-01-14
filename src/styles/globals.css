@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Quicksand&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,11 +8,17 @@
 }
 
 *>*{
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 
-.bg-img{
+/* .bg-img{
     background-image:  linear-gradient(rgba(4, 51, 22, 0.85), rgba(21, 59, 36, 0.85)),
+                        url("https://media.istockphoto.com/id/1305168588/photo/us-currency-and-finance-concept-yellow-american-dollar-sign-glowing-amid-black-american.jpg?b=1&s=170667a&w=0&k=20&c=m_X1D2_4axEwr2HKr5oCGycq5O2BEqNjVgHRAh1-cAw=");
+    background-size: cover;
+} */
+
+.bg-img{
+    background-image:  linear-gradient(rgba(18, 19, 18, 0.95), rgba(28, 34, 30, 0.95)),
                         url("https://media.istockphoto.com/id/1305168588/photo/us-currency-and-finance-concept-yellow-american-dollar-sign-glowing-amid-black-american.jpg?b=1&s=170667a&w=0&k=20&c=m_X1D2_4axEwr2HKr5oCGycq5O2BEqNjVgHRAh1-cAw=");
     background-size: cover;
 }

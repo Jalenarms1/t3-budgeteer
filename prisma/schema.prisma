@@ -14,10 +14,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Budget {
+  id       String    @id @default(cuid())
+  month    Int
+  year     Int
+  total    Int
+  strict   Int
+  expenses Expense[]
+  User     User?     @relation(fields: [userId], references: [id])
+  userId   String?
+  gains    Gain[]
+}
+
+model Expense {
+  id       String  @id @default(cuid())
+  item     String
+  amount   Int
+  Budget   Budget? @relation(fields: [budgetId], references: [id])
+  budgetId String?
+}
+
+model Gain {
+  id       String  @id @default(cuid())
+  item     String
+  amount   Int
+  Budget   Budget? @relation(fields: [budgetId], references: [id])
+  budgetId String?
 }
 
 // Necessary for Next auth
@@ -55,6 +77,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  budgets       Budget[]
 }
 
 model VerificationToken {
