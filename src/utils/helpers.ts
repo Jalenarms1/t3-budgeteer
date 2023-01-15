@@ -44,3 +44,13 @@ export const getMonthString = (num: number) => {
         
     }
 }
+
+export const formatMoney = (amount: number, decimals = 2) => {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      maximumFractionDigits: decimals,
+      currency: 'USD',
+    });
+  
+    return formatter.format(amount);
+  };

@@ -6,7 +6,8 @@ const startBudgetZod = z.object({
   month: z.number(),
   year: z.number(),
   total: z.number(),
-  strict: z.number()
+  strict: z.number(),
+  spent: z.number()
 })
 
 export const dbRouter = router({
@@ -26,6 +27,7 @@ export const dbRouter = router({
           year: input.year,
           total: input.total,
           strict: input.strict,
+          spent: input.spent,
           userId: session.user.id
         }
       })
@@ -34,6 +36,27 @@ export const dbRouter = router({
 
       return newBudget
       
+    }),
+  getBudget: protectedProcedure
+    .query(async ({ctx: {prisma, session}}) => {
+      try {
+        const userBudget = await prisma.budget.findFirst({
+          where: {
+            userId: session.user.id
+          }
+        })
+
+        if(userBudget) {
+          return userBudget
+        } else {
+          return null
+        }
+        
+      } catch (error) {
+        console.log(error);
+        return error
+        
+      }
     })
   
 });

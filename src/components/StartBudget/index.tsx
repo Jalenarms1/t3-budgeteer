@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { trpc } from '../../utils/trpc'
 
 interface TBudget {
-    total: number,
-    strict: number,
+    total: number | string,
+    strict: number | string,
     month: number,
-    year: number
+    year: number,
+    spent: number,
+    error: boolean
 
 } 
 
@@ -13,19 +15,35 @@ const numRef = [0,1,2,3,4,5,6,7,8,9]
 
 export default function StartBudget({month, year}: {month: number, year: number}) {
     
-    const [state, setState] = useState<TBudget>({total: 0, strict: 0, month, year })
-    const starter = trpc.db.startBudget.useMutation()
+    const [state, setState] = useState<TBudget>({total: 0, strict: 0, month, year, spent: 0, error: false })
+    const starter = trpc.db.startBudget.useMutation({onSuccess: () => ctx.invalidate()})
+    const ctx = trpc.useContext()
 
-    // const submitBudget = () => {
-    //     starter.mutate({month, year, total: state.total, strict: state.strict})
-    // }
+    const submitBudget = () => {
+        if((state.total && state.strict) > 0){
+            starter.mutate({month, year, total: parseInt(state.total as string), strict: parseInt(state.strict as string), spent: state.spent})
+            setState((prev: TBudget) => {
+                return {
+                    ...prev,
+                    error: false
+                }
+            })
+            return
+
+        }else {
+            setState((prev: TBudget) => {
+                return {
+                    ...prev,
+                    error: true
+                }
+            })
+        }
+
+    }
 
     const inputChange = (e: any) => {
         const {name, value} = e.target
         
-        
-        
-        console.log(parseInt(value.slice(-1)));
         if(value === 0) setState((prev: TBudget) => {
             return {
                 ...prev,
@@ -33,7 +51,7 @@ export default function StartBudget({month, year}: {month: number, year: number}
             }
         })
         
-        if(!parseInt(value.slice(-1)) && value.slice(-1) !== '') {
+        if(!parseInt(value.slice(-1)) && value.slice(-1) !== '' && parseInt(value.slice(-1)) !== 0) {
             setState((prev: TBudget) => {
                 return {
                     ...prev
@@ -42,7 +60,6 @@ export default function StartBudget({month, year}: {month: number, year: number}
             return
         } 
 
-        console.log("rean");
         
 
         setState((prev: TBudget) => {
@@ -74,7 +91,7 @@ export default function StartBudget({month, year}: {month: number, year: number}
                     </div>
 
                 </div>
-                <button className="bg-yellow-400 rounded active:bg-yellow-600 hover:bg-yellow-500 shadow-sm shadow-slate-900 text-slate-900 px-3 py-1 font-semibold">Start Budget</button>
+                <button onClick={submitBudget} className="bg-yellow-400 rounded active:bg-yellow-600 hover:bg-yellow-500 shadow-sm shadow-slate-900 text-slate-900 px-3 py-1 font-semibold">Start Budget</button>
             </div>
 
         </div>
