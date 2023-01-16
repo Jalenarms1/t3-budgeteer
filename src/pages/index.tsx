@@ -15,7 +15,7 @@ import SummaryTable from "../components/SummaryTable";
 const Home: NextPage = () => {
 
   const {data: session} = useSession()
-  const {data: userBudget, isLoading} = trpc.db.getBudget.useQuery()
+  const {data: userBudget} = trpc.db.getBudget.useQuery()
 
   console.log(session);
   
