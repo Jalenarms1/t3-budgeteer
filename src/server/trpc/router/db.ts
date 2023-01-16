@@ -139,7 +139,7 @@ export const dbRouter = router({
         return error
       }
     }),
-  getGainsAndExpenses: protectedProcedure
+  getGainsAndExpenses: publicProcedure
     .input(z.object({budgetId: z.string().optional()}))
     .query(async ({ctx: {prisma, session}, input}) => {
       try {

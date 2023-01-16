@@ -31,12 +31,12 @@ const Home: NextPage = () => {
         <NavBar />
         {!session ? (<Login />) : (
           <>
-            <div className="flex w-full gap-10">
-              <div className="flex flex-col w-[40%]">
+            <div className="flex max-sm:flex-col justify-center  w-full gap-10">
+              <div className="flex flex-col w-[40%] max-sm:w-[100%]">
                 <BudgetHeader userBudget={userBudget as Budget} />
                 <SpendingActivity userBudget={userBudget as Budget} />
               </div>
-              <SummaryTable userBudget={userBudget as Budget} />
+              {session && <SummaryTable userBudget={userBudget as Budget} />}
             </div>
 
           </>

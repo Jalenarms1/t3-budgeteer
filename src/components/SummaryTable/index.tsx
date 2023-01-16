@@ -11,9 +11,9 @@ export default function SummaryTable({userBudget}: {userBudget: Budget}) {
 
   return (
     <>
-        <div className="report-table w-[50%]">
+        <div className="report-table w-[50%] max-sm:w-[100%]">
             <div className="h-full pt-10">
-                <div className="h-fit ml-5  w-[100%] rounded shadow-sm shadow-slate-500">
+                <div className="h-fit w-[96%] mx-auto rounded shadow-sm shadow-slate-500">
                     <div className="header-content">
                         <div className="flex justify-between border-b bg-slate-900 border-slate-900 items-center py-2 px-4 rounded rounded-b-none">
                         <p className='text-2xl text-slate-200'>Summary</p>

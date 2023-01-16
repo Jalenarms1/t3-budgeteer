@@ -50,7 +50,7 @@ export default function SpendingActivity({userBudget}: {userBudget: Budget}) {
   return (
     <>
         <div className="h-full pt-10">
-          <div className="h-80 ml-10 bg-slate-800  w-[100%] rounded shadow-sm shadow-slate-500">
+          <div className="h-80 w-[96%] mx-auto bg-slate-800 rounded shadow-sm shadow-slate-500">
             <div className="header-content">
                 {showGain ? <AddGain clearRecord={clearRecord} userBudget={userBudget} record={record} setRecord={recordInputChange} setShowGain={switchShow}  /> : <AddExpense clearRecord={clearRecord} userBudget={userBudget} record={record} setRecord={recordInputChange} setShowGain={switchShow} />}
               
