@@ -9,6 +9,9 @@ import BudgetHeader from "../components/BugetHeader";
 import Login from "../components/Login";
 import SpendingActivity from "../components/SpendingActivity";
 import type { Budget } from "@prisma/client";
+import { formatMoney } from "../utils/helpers";
+import SummaryItem from "../components/SummaryItem";
+import SummaryTable from "../components/SummaryTable";
 
 const Home: NextPage = () => {
 
@@ -27,15 +30,19 @@ const Home: NextPage = () => {
       </Head>
       <main className="min-h-screen flex flex-col pb-5 bg-green-100 bg-img">
         <NavBar />
-        {!session ? (<Login />) : <BudgetHeader userBudget={userBudget as Budget} />}
-        {/* <div className="h-full py-5">
-          <div className="h-48 ml-10 bg-slate-300 w-[45%] rounded">
+        {!session ? (<Login />) : (
+          <>
+            <div className="flex w-full gap-10">
+              <div className="flex flex-col w-[40%]">
+                <BudgetHeader userBudget={userBudget as Budget} />
+                <SpendingActivity userBudget={userBudget as Budget} />
+              </div>
+              <SummaryTable userBudget={userBudget as Budget} />
+            </div>
 
-          </div>
-
-        </div> */}
-        {/* <BudgetHeader /> */}
-        <SpendingActivity userBudget={userBudget as Budget} />
+          </>
+        )}
+        
         
       </main>
     </>

@@ -18,7 +18,7 @@ export default function NavBar() {
             </div>
             <div className='flex items-center gap-4'>
               <BsFillCalculatorFill className='text-green-500 text-3xl  rounded active:text-green-600 cursor-pointer hover:text-green-400' />
-              {!session && <button onClick={() => signOut()} className='text-yellow-400 shadow-sm shadow-red-700 active:bg-slate-800  p-2'>
+              {session && <button onClick={() => signOut()} className='text-yellow-400 shadow-sm shadow-red-700 active:bg-slate-800  p-2'>
                 Logout
               </button>}
 

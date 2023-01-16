@@ -1,3 +1,5 @@
+import { Gain } from "@prisma/client";
+import { Input } from "postcss";
 import { z } from "zod";
 
 import { router, publicProcedure, protectedProcedure} from "../trpc";
@@ -36,20 +38,25 @@ export const dbRouter = router({
       return newBudget
       
     }),
-  getBudget: protectedProcedure
+  getBudget: publicProcedure
     .query(async ({ctx: {prisma, session}}) => {
       try {
-        const userBudget = await prisma.budget.findFirst({
-          where: {
-            userId: session.user.id
+        if(session) {
+          const userBudget = await prisma.budget.findFirst({
+            where: {
+              userId: session?.user?.id
+            }
+          })
+          if(userBudget) {
+            return userBudget
+          } else {
+            return null
           }
-        })
 
-        if(userBudget) {
-          return userBudget
         } else {
           return null
         }
+
         
       } catch (error) {
         console.log(error);
@@ -97,7 +104,7 @@ export const dbRouter = router({
     }),
     addExpense: protectedProcedure
     .input(gainExpenseZod)
-    .mutation(async ({ctx: {prisma, session}, input: {budgetId, description, amount}}) => {
+    .mutation(async ({ctx: {prisma}, input: {budgetId, description, amount}}) => {
       try {
         const newGain = await prisma.expense.create({
           data: {
@@ -130,6 +137,46 @@ export const dbRouter = router({
         console.log(error);
         
         return error
+      }
+    }),
+  getGainsAndExpenses: protectedProcedure
+    .input(z.object({budgetId: z.string().optional()}))
+    .query(async ({ctx: {prisma, session}, input}) => {
+      try {
+        const finalArr: Gain[] = [];
+        const gains = await prisma.gain.findMany({
+          where: {
+            budgetId: input.budgetId
+          }
+        })
+
+        const expenses = await prisma.expense.findMany({
+          where: {
+            budgetId: input.budgetId
+          }
+        })
+
+        gains.forEach(item => {
+          const gain = {
+            ...item,
+            gain: true
+          }
+          finalArr.push(gain)
+        })
+        
+        expenses.forEach(item => {
+          const expense = {
+            ...item,
+            expense: true
+          }
+          finalArr.push(expense)
+        })
+
+        return {items: finalArr.sort((a: any, b: any) => b.createdAt - a.createdAt)}
+      } catch (error) {
+        console.log(error);
+        return error
+        
       }
     })
   
