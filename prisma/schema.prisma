@@ -28,19 +28,21 @@ model Budget {
 }
 
 model Expense {
-  id       String  @id @default(cuid())
-  item     String
-  amount   Int
-  Budget   Budget? @relation(fields: [budgetId], references: [id])
-  budgetId String?
+  id          String   @id @default(cuid())
+  description String
+  amount      Int
+  Budget      Budget?  @relation(fields: [budgetId], references: [id])
+  budgetId    String?
+  createdAt   DateTime @default(now())
 }
 
 model Gain {
-  id       String  @id @default(cuid())
-  item     String
-  amount   Int
-  Budget   Budget? @relation(fields: [budgetId], references: [id])
-  budgetId String?
+  id          String   @id @default(cuid())
+  description String
+  amount      Int
+  Budget      Budget?  @relation(fields: [budgetId], references: [id])
+  budgetId    String?
+  createdAt   DateTime @default(now())
 }
 
 // Necessary for Next auth
