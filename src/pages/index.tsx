@@ -10,7 +10,6 @@ import Login from "../components/Login";
 import SpendingActivity from "../components/SpendingActivity";
 import type { Budget } from "@prisma/client";
 import { formatMoney } from "../utils/helpers";
-import SummaryItem from "../components/SummaryItem";
 import SummaryTable from "../components/SummaryTable";
 
 const Home: NextPage = () => {
