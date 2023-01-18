@@ -8,6 +8,7 @@ export default function SummaryTable({userBudget}: {userBudget: Budget}) {
     const {data, isLoading} = trpc.db.getGainsAndExpenses.useQuery({budgetId: userBudget?.id})
     console.log(data);
     
+    if(!userBudget) return null
 
   return (
     <>

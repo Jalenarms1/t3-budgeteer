@@ -2,7 +2,7 @@ import type { Budget } from '@prisma/client'
 import React from 'react'
 import { formatMoney } from '../../utils/helpers'
 
-export default function UserBudget({data}: {data: Budget}) {
+export default function UserBudget({data, localBudget}: {data: Budget, localBudget: any[]}) {
 
     const progressControl = (prop: any) => {
         if(data.spent / prop > .75 && data.spent < prop) return 'text-yellow-500'

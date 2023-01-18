@@ -1,5 +1,6 @@
 import type { Budget } from '@prisma/client';
 import React from 'react'
+import { useSetGetLocalStorage } from '../../hooks/useLocalStorage';
 import { getMonthString } from '../../utils/helpers';
 import { trpc } from '../../utils/trpc';
 import StartBudget from '../StartBudget';
@@ -11,6 +12,8 @@ export default function BudgetHeader({userBudget}: {userBudget: Budget}) {
     const date = new Date();
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0)
     const daysLeft = lastDay.getUTCDate() - date.getUTCDate() 
+    const {budget} = useSetGetLocalStorage()
+
 
     // const {data, isLoading} = trpc.db.getBudget.useQuery()
 
@@ -30,8 +33,8 @@ export default function BudgetHeader({userBudget}: {userBudget: Budget}) {
                   <p className='text-2xl text-slate-200'>{getMonthString(date.getMonth())}</p>
                   <p className='text-xs text-yellow-400 bg-slate-700 p-1 rounded-md '>{daysLeft} days left</p>
               </div>
-              {!userBudget ? <StartBudget month={date.getMonth()} year={date.getFullYear()} /> 
-              : <UserBudget data={userBudget as Budget} />
+              {((!userBudget && budget.total) || !userBudget) ? <StartBudget month={date.getMonth()} year={date.getFullYear()} /> 
+              : <UserBudget data={userBudget as Budget} localBudget={budget} />
               }
             </div>
           </div>

@@ -45,7 +45,7 @@ export default function SpendingActivity({userBudget}: {userBudget: Budget}) {
         }
     }
 
-
+    if(!userBudget) return null
 
   return (
     <>

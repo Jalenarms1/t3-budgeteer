@@ -1,4 +1,6 @@
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { useSetGetLocalStorage } from '../../hooks/useLocalStorage'
 import { trpc } from '../../utils/trpc'
 
 interface TBudget {
@@ -18,6 +20,9 @@ export default function StartBudget({month, year}: {month: number, year: number}
     const [state, setState] = useState<TBudget>({total: 0, strict: 0, month, year, spent: 0, error: false })
     const starter = trpc.db.startBudget.useMutation({onSuccess: () => ctx.invalidate()})
     const ctx = trpc.useContext()
+    const {addBudget} = useSetGetLocalStorage();
+    const {query} = useRouter()
+
 
     const submitBudget = () => {
         if((state.total && state.strict) > 0){
@@ -39,6 +44,12 @@ export default function StartBudget({month, year}: {month: number, year: number}
             })
         }
 
+    }
+
+    // For Demo
+    const submitDemoBudget = () => {
+        addBudget( parseInt(state.total as string), parseInt(state.strict as string), state.spent, month, year)
+        setState({total: 0, strict: 0, month, year, spent: 0, error: false})
     }
 
     const inputChange = (e: any) => {
@@ -91,7 +102,7 @@ export default function StartBudget({month, year}: {month: number, year: number}
                     </div>
 
                 </div>
-                <button onClick={submitBudget} className="bg-yellow-400 rounded active:bg-yellow-600 hover:bg-yellow-500 shadow-sm shadow-slate-900 text-slate-900 px-3 py-1 font-semibold">Start Budget</button>
+                <button onClick={query.demo !== 'demo' ? submitBudget : submitDemoBudget} className="bg-yellow-400 rounded active:bg-yellow-600 hover:bg-yellow-500 shadow-sm shadow-slate-900 text-slate-900 px-3 py-1 font-semibold">Start Budget</button>
             </div>
 
         </div>

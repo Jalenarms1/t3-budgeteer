@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {type SetStateAction, type Dispatch} from 'react'
 import Image from "next/image";
 import {BsFillCalculatorFill} from "react-icons/bs/index"
 import { signOut, useSession } from 'next-auth/react';
 import {FcMoneyTransfer} from "react-icons/fc/index"
 
-export default function NavBar() {
+export default function NavBar({setShowCalculator, showCalculator}: {showCalculator: boolean, setShowCalculator: Dispatch<SetStateAction<boolean>>}) {
   const {data:session} = useSession()
   return (
     <>
@@ -17,7 +17,7 @@ export default function NavBar() {
 
             </div>
             <div className='flex items-center gap-4'>
-              <BsFillCalculatorFill className='text-green-500 text-3xl  rounded active:text-green-600 cursor-pointer hover:text-green-400' />
+              <BsFillCalculatorFill onClick={() => setShowCalculator(!showCalculator)} className='text-green-500 text-3xl  rounded active:text-green-600 cursor-pointer hover:text-green-400' />
               {session && <button onClick={() => signOut()} className='text-yellow-400 shadow-sm shadow-red-700 active:bg-slate-800  p-2'>
                 Logout
               </button>}
