@@ -14,15 +14,19 @@ export default function SummaryItem({data, localData}: {data: any, localData: an
       return 'text-red-500'
     }
   }
-  if(localData) {
+  if(localData ) {
+    if(localData.gains.length > 1) {
+      localData.gains.forEach((item: any) => {
+        localGainsExpenses.push({...item, gain: true})
+      })
 
-    localData.gains.forEach((item: any) => {
-      localGainsExpenses.push({...item, gain: true})
-    })
+    }
+    if(localData.expenses.length > 1) {
+      localData.expenses.forEach((item: any) => {
+        localGainsExpenses.push({...item, expense: true})
+      })
 
-    localData.expenses.forEach((item: any) => {
-      localGainsExpenses.push({...item, expense: true})
-    })
+    }
 
   }
   console.log("local", localGainsExpenses);
