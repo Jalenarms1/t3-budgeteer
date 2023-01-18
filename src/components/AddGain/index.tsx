@@ -1,6 +1,8 @@
 import type { Budget } from '@prisma/client'
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import {MdAttachMoney} from "react-icons/md/index"
+import { useSetGetLocalStorage } from '../../hooks/useLocalStorage'
 import { formatMoney } from '../../utils/helpers'
 import { trpc } from '../../utils/trpc'
 
@@ -8,7 +10,9 @@ import { trpc } from '../../utils/trpc'
 export default function AddGain({setShowGain, record, setRecord, userBudget, clearRecord} : {setShowGain: () => void, record: {description: string, amount: number}, setRecord: (e: any) => void, userBudget: Budget, clearRecord: () => void}) {
   const ctx = trpc.useContext()
   const gain = trpc.db.addGain.useMutation({onSuccess: () => ctx.invalidate()})
+  const {addGain, setBudget} = useSetGetLocalStorage();
   const [error, setError] = useState<boolean>(false)
+  const {data:session} = useSession()
   console.log(error);
   
 
@@ -28,6 +32,20 @@ export default function AddGain({setShowGain, record, setRecord, userBudget, cle
     }
   }
 
+  const submitDemoGain = () => {
+    addGain(record.description, parseInt(record.amount as any))
+
+    // setBudget((prev: any) => {
+    //     return {
+    //         ...prev,
+    //         total: prev.total + parseInt(record.amount as any),
+    //         strict: prev.strict + parseInt(record.amount as any)
+    //     }
+    // })
+
+    clearRecord()
+  }
+
   return (
     <>
         <div className="flex justify-between border-b bg-slate-900 border-slate-900 items-center py-2 px-4 rounded rounded-b-none">
@@ -42,7 +60,7 @@ export default function AddGain({setShowGain, record, setRecord, userBudget, cle
                     <p onClick={setShowGain} className='text-xs text-slate-400 cursor-pointer'>/ Expense</p>
 
                 </div>
-                <button onClick={submitGain} className="px-3 bg-green-200 text-slate-900 rounded font-semibold active:bg-green-400 hover:bg-green-300">Add</button>
+                <button onClick={!session ? submitDemoGain : submitGain} className="px-3 bg-green-200 text-slate-900 rounded font-semibold active:bg-green-400 hover:bg-green-300">Add</button>
             </div>
             <div className="flex flex-col gap-2 mx-3">
                 <p className="text-xs text-slate-100">Description</p>

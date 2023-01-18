@@ -1,5 +1,7 @@
 import { Budget } from '@prisma/client'
+import { useSession } from 'next-auth/react'
 import React, {useState} from 'react'
+import { useSetGetLocalStorage } from '../../hooks/useLocalStorage'
 import AddExpense from '../AddExpense'
 import AddGain from '../AddGain'
 
@@ -8,6 +10,8 @@ export default function SpendingActivity({userBudget}: {userBudget: Budget}) {
     const [showGain, setShowGain] = useState<boolean>(true)
     const [record, setRecord] = useState({description: '', amount: 0})
     console.log(record);
+    const {budget} = useSetGetLocalStorage()
+    const {data:session} = useSession()
     
 
     const switchShow = () => {
@@ -45,7 +49,7 @@ export default function SpendingActivity({userBudget}: {userBudget: Budget}) {
         }
     }
 
-    if(!userBudget) return null
+    if(!userBudget && (!session && !budget.total)) return null
 
   return (
     <>

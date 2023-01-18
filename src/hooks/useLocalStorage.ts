@@ -28,7 +28,7 @@ export const useLocalStorage = (key: any, initialValue: any) => {
 
 export const useSetGetLocalStorage = () => {
     const [budget, setBudget] = useLocalStorage('budget', []);
-
+    const date = new Date()
     const addBudget = (total: number, strict: number, spent: number, month: number, year: number) => {
         setBudget(() => {
             return {
@@ -38,7 +38,7 @@ export const useSetGetLocalStorage = () => {
             gains: [],
             expenses: []
         }})
-        
+        location.reload()
     }
 
     const addGain = (description: string, amount: number) => {
@@ -46,10 +46,12 @@ export const useSetGetLocalStorage = () => {
             return {
                 ...prev,
                 total: prev.total + amount,
-                strict: prev.total + amount,
-                gains: [...prev.gains, {description, amount}]
+                strict: prev.strict + amount,
+                gains: [...prev.gains, {description, amount, createdAt: date.toLocaleDateString() }]
             }
         })
+        location.reload()
+
     }
 
     const addExpense = (description: string, amount: number) => {
@@ -57,10 +59,12 @@ export const useSetGetLocalStorage = () => {
             return {
                 ...prev,
                 spent: prev.spent + amount,
-                expenses: [...prev.expenses, {description, amount}]
+                expenses: [...prev.expenses, {description, amount, createdAt: date.toLocaleDateString() }]
             }
         })
+        location.reload()
+
     }
 
-    return {addBudget, addExpense, addGain, budget}
+    return {addBudget, addExpense, addGain, budget, setBudget}
 }

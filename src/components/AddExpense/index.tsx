@@ -1,6 +1,8 @@
 import type { Budget } from '@prisma/client'
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import { MdMoneyOffCsred } from 'react-icons/md/index'
+import { useSetGetLocalStorage } from '../../hooks/useLocalStorage'
 import { formatMoney } from '../../utils/helpers'
 import { trpc } from '../../utils/trpc'
 
@@ -8,7 +10,9 @@ export default function AddExpense({setShowGain, record, setRecord, userBudget, 
   const ctx = trpc.useContext()
   const expense = trpc.db.addExpense.useMutation({onSuccess: () => ctx.invalidate()})
   const [error, setError] = useState<boolean>(false)
-
+  const {addExpense, setBudget} = useSetGetLocalStorage();
+  const {data:session} = useSession()
+  
 
   const submitExpense = () => {
     if(record.amount > 0 && record.description.trim() !== '') {
@@ -26,6 +30,19 @@ export default function AddExpense({setShowGain, record, setRecord, userBudget, 
     }
   }
 
+  const submitDemoExpense = () => {
+    addExpense(record.description, parseInt(record.amount as any))
+
+    // setBudget((prev: any) => {
+    //     return {
+    //         ...prev,
+    //         spent: prev.spent + parseInt(record.amount as any),
+    //     }
+    // })
+
+    clearRecord()
+  }
+
 
   return (
     <>
@@ -41,7 +58,7 @@ export default function AddExpense({setShowGain, record, setRecord, userBudget, 
                     <p onClick={setShowGain} className='text-xs text-slate-400 cursor-pointer'>/ Gain</p>
 
                 </div>
-                <button onClick={submitExpense} className="px-3 bg-red-200 text-slate-900 rounded font-semibold active:bg-red-400 hover:bg-red-300">Add</button>
+                <button onClick={!session ? submitDemoExpense : submitExpense} className="px-3 bg-red-200 text-slate-900 rounded font-semibold active:bg-red-400 hover:bg-red-300">Add</button>
             </div>
             <div className="flex flex-col gap-2 mx-3">
                 <p className="text-xs text-slate-100">Description</p>

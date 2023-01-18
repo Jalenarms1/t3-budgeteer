@@ -1,14 +1,20 @@
 import { Budget } from '@prisma/client'
+import { useSession } from 'next-auth/react'
 import React from 'react'
+import { useSetGetLocalStorage } from '../../hooks/useLocalStorage'
 import { trpc } from '../../utils/trpc'
 import SummaryItem from '../SummaryItem'
 
 export default function SummaryTable({userBudget}: {userBudget: Budget}) {
 
     const {data, isLoading} = trpc.db.getGainsAndExpenses.useQuery({budgetId: userBudget?.id})
-    console.log(data);
+    console.log("Logged", userBudget);
+    console.log("Hello");
+    const {data:session} = useSession()
+    const {budget} = useSetGetLocalStorage()
     
-    if(!userBudget) return null
+    
+    if(!userBudget && (!session && !budget.total)) return null
 
   return (
     <>
@@ -32,7 +38,7 @@ export default function SummaryTable({userBudget}: {userBudget: Budget}) {
                             Date
                             </p>
                         </div>
-                        <SummaryItem data={data} />
+                        <SummaryItem data={data} localData={budget} />
                         
                         
                         </div>
