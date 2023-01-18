@@ -15,13 +15,13 @@ export default function SummaryItem({data, localData}: {data: any, localData: an
     }
   }
   if(localData ) {
-    if(localData.gains.length > 1) {
+    if(localData.gains && localData.gains.length > 1) {
       localData.gains.forEach((item: any) => {
         localGainsExpenses.push({...item, gain: true})
       })
-
     }
-    if(localData.expenses.length > 1) {
+
+    if(localData.expenses && localData.expenses.length > 1) {
       localData.expenses.forEach((item: any) => {
         localGainsExpenses.push({...item, expense: true})
       })
