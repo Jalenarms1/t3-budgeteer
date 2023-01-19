@@ -35,8 +35,7 @@ export const useSetGetLocalStorage = () => {
             total,
             strict, 
             spent,
-            gains: [],
-            expenses: []
+            allActivity: []
         }})
         location.reload()
     }
@@ -47,7 +46,7 @@ export const useSetGetLocalStorage = () => {
                 ...prev,
                 total: prev.total + amount,
                 strict: prev.strict + amount,
-                gains: [...prev.gains, {description, amount, createdAt: date.toLocaleDateString() }]
+                allActivity: [...prev.allActivity, {description, amount, createdAt: date.toLocaleDateString(), gain: true }].sort((a:any, b:any) => b.createdAt - a.createdAt)
             }
         })
         location.reload()
@@ -59,7 +58,8 @@ export const useSetGetLocalStorage = () => {
             return {
                 ...prev,
                 spent: prev.spent + amount,
-                expenses: [...prev.expenses, {description, amount, createdAt: date.toLocaleDateString() }]
+                allActivity: [...prev.allActivity, {description, amount, createdAt: date.toLocaleDateString(), expense: true }].sort((a:any, b:any) => b.createdAt - a.createdAt)
+
             }
         })
         location.reload()
