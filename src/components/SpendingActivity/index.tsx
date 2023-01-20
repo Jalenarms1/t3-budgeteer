@@ -49,7 +49,7 @@ export default function SpendingActivity({userBudget}: {userBudget: Budget}) {
         }
     }
 
-    if(!userBudget && (!session && !budget.total)) return null
+    if((session && !userBudget) || (!session && !budget.total)) return null
 
   return (
     <>

@@ -14,7 +14,7 @@ export default function SummaryTable({userBudget}: {userBudget: Budget}) {
     const {budget} = useSetGetLocalStorage()
     
     
-    if(!userBudget && (!session && !budget.total)) return null
+    if((session && !userBudget) || (!session && !budget.total)) return null
 
   return (
     <>

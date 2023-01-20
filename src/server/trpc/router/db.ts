@@ -178,6 +178,29 @@ export const dbRouter = router({
         return error
         
       }
+    }),
+  clearCurrentBudget: protectedProcedure
+    .input(z.object({id: z.string()}))
+    .mutation(async ({ctx: {prisma}, input}) => {
+      try {
+        const delBudget = await prisma.budget.delete({
+          where: {
+            id: input.id
+          }
+        })
+
+        if(delBudget) {
+          return delBudget
+        } else {
+          return null
+        }
+
+        
+      } catch (error) {
+        console.log(error);
+        return error
+        
+      }
     })
   
 });

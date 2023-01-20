@@ -14,7 +14,7 @@ export default function BudgetHeader({userBudget}: {userBudget: Budget}) {
     const date = new Date();
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0)
     const daysLeft = lastDay.getUTCDate() - date.getUTCDate() 
-    const {budget} = useSetGetLocalStorage()
+    const {budget, restartBudget} = useSetGetLocalStorage()
     console.log(budget.total);
     
 
@@ -38,7 +38,7 @@ export default function BudgetHeader({userBudget}: {userBudget: Budget}) {
                   <p className='text-xs text-yellow-400 bg-slate-700 p-1 rounded-md '>{daysLeft} days left</p>
               </div>
               {((!session && !budget.total) || ( session && !userBudget)) ? <StartBudget month={date.getMonth()} year={date.getFullYear()} /> 
-              : <UserBudget data={userBudget as Budget} localBudget={budget} />
+              : <UserBudget data={userBudget as Budget} localBudget={budget} restartBudget={restartBudget} />
               }
             </div>
           </div>

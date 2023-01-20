@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 
 export const useLocalStorage = (key: any, initialValue: any) => {
+    
     const [value, setValue] = useState(() => {
         const items = localStorage.getItem(key);
         if(!items || items == "undefined") {
@@ -66,5 +67,10 @@ export const useSetGetLocalStorage = () => {
 
     }
 
-    return {addBudget, addExpense, addGain, budget, setBudget}
+    const restartBudget = () => {
+        localStorage.removeItem('budget')
+        location.reload()
+    }
+
+    return {addBudget, addExpense, addGain, budget, setBudget, restartBudget}
 }

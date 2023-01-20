@@ -14,7 +14,7 @@ import SummaryTable from "../components/SummaryTable";
 import { useRouter } from "next/router";
 import Calculator from "../components/Calculator";
 import CalculatorModal from "../components/CalculatorModal";
-import { useSetGetLocalStorage } from "../hooks/useLocalStorage";
+import { useLocalStorage, useSetGetLocalStorage } from "../hooks/useLocalStorage";
 
 const Home: NextPage = () => {
 
@@ -24,6 +24,7 @@ const Home: NextPage = () => {
   // const [queryString, setQueryString] = useState<string>('')
   const {query} = useRouter()
   // const {budget} = useSetGetLocalStorage()
+  // const [value, setValue] = useLocalStorage('budget', {})
 
   console.log(session);
   console.log(query);
