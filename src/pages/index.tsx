@@ -55,7 +55,7 @@ const Home: NextPage = () => {
           </>
         )}
         {(!session || query.demo ==='demo') &&<div className="w-full flex justify-center my-10">
-          <Link className="text-slate-200 flex justify-center bg-slate-600 active:bg-slate-600 hover:bg-slate-500 w-1/2 rounded-full p-2" href={{
+          <Link className="text-slate-200 flex justify-center bg-slate-600 active:bg-slate-600 hover:bg-slate-500 w-1/2 max-sm:w-3/4 rounded-full p-2" href={{
             pathname: '/',
             query: {
               demo: query.demo === 'demo' ? '' : 'demo'

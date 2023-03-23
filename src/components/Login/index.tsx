@@ -13,10 +13,10 @@ export default function Login() {
             <p className="text-2xl text-center">
                 Secure your budget
             </p>
-            <button onClick={() => signIn("google")} className='flex justify-center rounded-full bg-green-300 hover:bg-green-200 active:bg-green-300 w-1/2 p-2 text-black'>
+            <button onClick={() => signIn("google")} className='flex justify-center rounded-full bg-green-300 hover:bg-green-200 active:bg-green-300 w-1/2 max-sm:w-3/4 p-2 text-black'>
               <div className='flex gap-2 items-center'>
                   <p>Sign In with Google</p>
-                  <FcGoogle className='text-2xl'/>
+                  <FcGoogle className='text-2xl '/>
               </div>
             </button>
 
